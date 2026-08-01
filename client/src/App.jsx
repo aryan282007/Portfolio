@@ -6,6 +6,8 @@ import Portfolio from './components/Portfolio'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
+// Root application component that assembles the primary portfolio sections.
+// Each child component represents a distinct page section or reusable UI block.
 export default function App() {
   return (
     <div className="min-h-screen bg-base-bg">

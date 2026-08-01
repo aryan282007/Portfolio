@@ -8,10 +8,11 @@ import contactRouter from './routes/contact.js'
 const app = express()
 const PORT = process.env.PORT || 5000
 
+// Allow the frontend to communicate with this backend using CORS.
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }))
 app.use(express.json())
 
-// basic abuse protection on the public contact form
+// Protect the public contact endpoint from too many requests in a short period.
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
@@ -20,6 +21,7 @@ const contactLimiter = rateLimit({
 
 app.use('/api/contact', contactLimiter, contactRouter)
 
+// Health check endpoint for deployments and monitoring.
 app.get('/api/health', (req, res) => res.json({ ok: true }))
 
 async function start() {

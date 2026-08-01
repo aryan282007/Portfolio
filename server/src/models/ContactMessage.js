@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+// Schema for storing messages submitted through the portfolio contact form.
 const contactMessageSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
