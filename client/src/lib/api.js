@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL || ''
+const BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
 
 export async function sendContactMessage(payload) {
   const res = await fetch(`${BASE}/api/contact`, {

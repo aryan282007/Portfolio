@@ -7,11 +7,25 @@ import contactRouter from './routes/contact.js'
 
 const app = express()
 const PORT = process.env.PORT || 5000
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
 
 // Allow the frontend to communicate with this backend using CORS.
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }))
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      callback(null, true)
+      return
+    }
+
+    callback(new Error('CORS policy denied'))
+  },
+  credentials: true,
+}))
 app.use(express.json())
-app.set("trust proxy", 1);
+app.set('trust proxy', 1)
 
 // Protect the public contact endpoint from too many requests in a short period.
 const contactLimiter = rateLimit({

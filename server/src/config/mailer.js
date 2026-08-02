@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 
+const hasMailerConfig = Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+
 export const mailer = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -8,15 +10,17 @@ export const mailer = nodemailer.createTransport({
   },
 });
 
-mailer.verify((err) => {
-  if (err) {
-    console.error("SMTP VERIFY ERROR");
-    console.error(err);
-  } else {
-    console.log(" SMTP READY");
-  }
-});
+if (hasMailerConfig) {
+  mailer.verify((err) => {
+    if (err) {
+      console.error("SMTP VERIFY ERROR");
+      console.error(err);
+    } else {
+      console.log("SMTP READY");
+    }
+  });
+}
 
 export function isMailerConfigured() {
-  return Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+  return hasMailerConfig;
 }

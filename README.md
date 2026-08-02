@@ -1,74 +1,126 @@
-# Aryan portfolio — full stack
+# Aryan Portfolio Full Stack
 
-React + Vite + Tailwind frontend, Express + MongoDB backend for a working
-contact form. Layout matches the reference design (near-black background,
-orange accent, filterable portfolio grid); copy is adapted for a full-stack
-developer instead of the original UI/UX-designer template.
+A modern portfolio website for Aryan built with a React + Vite frontend and an Express + MongoDB backend. The site includes a responsive landing page, services and portfolio sections, and a working contact form that stores submissions and can send email notifications.
 
-## Structure
+## Features
 
+- Responsive single-page portfolio experience
+- Sections for Hero, Services, About, Portfolio, Contact, and Footer
+- Contact form with client-side validation and server-side validation
+- Message storage in MongoDB
+- Optional email notifications through Gmail SMTP
+- Rate limiting on the contact endpoint
+- Health check endpoint for deployment monitoring
+
+## Tech Stack
+
+- Frontend: React, Vite, Tailwind CSS
+- Backend: Express, MongoDB, Mongoose, Nodemailer
+- Extra tooling: Concurrently, Nodemon, Express Rate Limit
+
+## Project Structure
+
+```text
+client/   React frontend built with Vite
+server/   Express API for contact submissions and health checks
 ```
-client/   React frontend (Vite)
-server/   Express API — handles POST /api/contact, saves to MongoDB
-```
 
-## Setup
+## Prerequisites
 
-You need Node.js and a MongoDB instance — either local
-(`mongod` running on your machine) or a free
-[MongoDB Atlas](https://www.mongodb.com/atlas) cluster.
+- Node.js 18+
+- A MongoDB instance (local or MongoDB Atlas)
+- A Gmail account with an app password if you want email notifications enabled
+
+## Installation
+
+1. Install dependencies from the root:
 
 ```bash
-npm run install:all       # installs both client and server deps
+npm run install:all
 ```
+
+2. Create the server environment file:
 
 ```bash
 cp server/.env.example server/.env
-# edit server/.env — set MONGO_URI to your local or Atlas connection string
 ```
 
-Then, from the root:
+3. Update the values in server/.env:
+
+- MONGO_URI: your MongoDB connection string
+- CLIENT_ORIGIN: usually http://localhost:5173 during development
+- EMAIL_USER and EMAIL_PASS: your Gmail address and app password if email sending is enabled
+
+## Running the Project
+
+From the root directory:
 
 ```bash
 npm run dev
 ```
 
-This runs the client on `http://localhost:5173` and the API on
-`http://localhost:5000` together. The Vite dev server proxies `/api`
-requests to the backend, so the contact form works out of the box.
+This starts:
 
-## Where to edit
+- Frontend: http://localhost:5173
+- Backend: http://localhost:5000
 
-- `client/src/data/services.js` — the six service cards
-- `client/src/data/projects.js` — portfolio grid + filter categories
-- `client/src/data/skills.js` — skill percentage rings + hero stats
-- `client/src/components/Hero.jsx` — name, headline, socials
-- `client/src/components/Footer.jsx` — email, phone, socials
-- `client/tailwind.config.js` — colors (`base`, `ink`, `brand`) and fonts
-- Replace the placeholder circle avatars in `Hero.jsx` / `About.jsx` with
-  real `<img>` tags once you have photos in `client/public/`
+Useful endpoints:
 
-## Contact form data
+- POST /api/contact — submit a contact message
+- GET /api/health — health check
 
-Submissions save to the `contactmessages` collection in MongoDB.
-`GET /api/contact` lists them — there's no auth on it yet, so **add auth
-before deploying this publicly**, otherwise anyone can read your inbox.
+## Available Scripts
 
-## Deploy
+- npm run dev — starts both client and server together
+- npm run install:all — installs dependencies for both apps
+- npm run build — builds the frontend for production
 
-- **Client**: Vercel, framework preset "Vite", set `VITE_API_URL` to your
-  deployed backend URL as an environment variable.
-- **Server**: Render or Railway — set `MONGO_URI` and `CLIENT_ORIGIN`
-  (your deployed frontend URL) as environment variables there.
+## Deploying for Production
 
-## Known gaps to close before this is production-ready
+### 1. Frontend deployment
 
-- No auth on `GET /api/contact` — protect it (e.g. a simple admin token
-  check) before you deploy, or remove the route entirely and read
-  submissions straight from MongoDB Atlas.
-- No email notification on new submissions yet — if you want an email
-  alert, add Nodemailer in `contactController.js` after the `.create()`
-  call.
-- Real project screenshots — swap the "Preview" placeholders in
-  `Portfolio.jsx` for actual images once ResumePilot/Wanderlust/DevPulse
-  are deployed.
+Deploy the client folder to Vercel or any Vite-compatible host.
+
+Required environment variable:
+
+- VITE_API_URL: your deployed backend URL, for example https://your-backend-url.onrender.com
+
+Build command:
+
+```bash
+npm run build
+```
+
+### 2. Backend deployment
+
+Deploy the server folder to Render, Railway, Fly.io, or another Node.js host.
+
+Required environment variables:
+
+- PORT: the port assigned by the host (Render/Railway usually provide this automatically)
+- MONGO_URI: your MongoDB connection string
+- CLIENT_ORIGIN: your deployed frontend domain, for example https://your-portfolio.vercel.app
+- EMAIL_USER: Gmail address used for notifications
+- EMAIL_PASS: Gmail app password
+
+Start command:
+
+```bash
+npm run start
+```
+
+### 3. Production checklist
+
+- Make sure the frontend can reach the backend through VITE_API_URL
+- Ensure CORS allows your live frontend domain using CLIENT_ORIGIN
+- Confirm MongoDB is reachable from the deployed server
+- Test the contact form end to end after deployment
+- Protect admin or inbox routes before making the API public if you add them later
+
+## Main Files to Edit
+
+- client/src/components/ — page sections such as Hero, About, Portfolio, Contact, and Footer
+- client/src/data/ — portfolio items, services, and skills content
+- server/src/controllers/contactController.js — contact form handling and email logic
+- server/src/routes/contact.js — contact API route
+- server/.env — environment configuration
