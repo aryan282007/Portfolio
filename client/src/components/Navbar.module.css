@@ -1,0 +1,142 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  /* TEST: make overlay transparent so it cannot cause full-black; add dashed outline for visibility */
+  background: transparent;
+  outline: 2px dashed rgba(255, 122, 48, 0.9);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 300ms ease, visibility 300ms ease;
+  z-index: 40;
+}
+
+.overlayOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(88vw, 360px);
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.25rem 1.5rem;
+  background: #111111;
+  box-shadow: -12px 0 32px rgba(0, 0, 0, 0.35);
+  /* subtle divider so drawer reads separate from the dimmed page */
+  border-left: 1px solid rgba(255, 255, 255, 0.03);
+  transform: translateX(100%);
+  transition: transform 300ms ease;
+  z-index: 60;
+  overflow-y: auto;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.drawerBrand {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.drawerBrandAccent {
+  color: #ff7a30;
+}
+
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  background: transparent;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+}
+
+.navList {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.9rem 0.75rem;
+  border-radius: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 200ms ease, color 200ms ease, transform 200ms ease;
+}
+
+.link:hover,
+.link:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  outline: none;
+  transform: translateX(2px);
+}
+
+.activeLink {
+  background: rgba(255, 122, 48, 0.16);
+  color: #ff7a30;
+}
+
+.drawerCta {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #ff7a30;
+  color: #111111;
+  padding: 0.9rem 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 200ms ease, background-color 200ms ease;
+}
+
+.drawerCta:hover,
+.drawerCta:focus-visible {
+  background: #ff8b46;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+@media (min-width: 768px) {
+  .overlay,
+  .drawer {
+    display: none;
+  }
+}

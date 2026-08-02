@@ -55,7 +55,9 @@ export default function Hero() {
             <a href="#contact" className="btn-primary">
               Hire Me
             </a>
-            <a href="/resume.pdf" className="btn-outline">
+            <a href="/pdfs/aryan_resume.pdf" 
+             download="aryan_resume.pdf" 
+             className="btn-outline">
               Download CV
             </a>
           </div>

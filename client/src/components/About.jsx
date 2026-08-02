@@ -47,7 +47,9 @@ export default function About() {
              I'm a <b>Full-Stack Developer</b> focused on creating fast, reliable, and intuitive web applications. Working across the <b>MERN Stack</b> with a strong foundation in <b>JavaScript, TypeScript, C++, and Java</b>, I value clean architecture, thoughtful design, and code that scales. I'm driven by curiosity, continuous learning, and the challenge of building software that makes an impact.
 
             </p>
-            <a href="/resume.pdf" className="btn-primary mt-6">
+            <a href="/pdfs/aryan_resume.pdf" 
+             download="aryan_resume.pdf" 
+             className="btn-primary mt-6">
               Download CV
             </a>
           </div>

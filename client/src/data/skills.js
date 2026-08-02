@@ -5,7 +5,7 @@ export const skills = [
   { label: 'Node / Express', percent: 70 },
   { label: 'MongoDB', percent: 65 },
   { label: 'TypeScript', percent: 50 },
-   { label: 'DSA', percent: 10 },
+   { label: 'DSA', percent: 5},
 ]
 
 export const stats = [

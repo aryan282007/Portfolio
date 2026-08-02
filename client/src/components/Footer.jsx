@@ -21,7 +21,7 @@ export default function Footer() {
           ))}
         </ul>
         <p className="text-xs text-ink-faint">
-          ay2500050@gmail.com · +91 9926150849
+          ay2500050@gmail.com 
         </p>
         <p className="text-xs text-ink-faint">
           © {new Date().getFullYear()} Aryan. All rights reserved.

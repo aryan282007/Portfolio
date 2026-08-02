@@ -34,8 +34,8 @@ export default function Portfolio() {
         {visible.map((p) => (
           <div key={p.name} className="card group overflow-hidden p-0">
             <div className="flex h-40 items-center justify-center border-b border-base-border bg-base-alt text-ink-faint">
-              {/* Replace with <img src={p.image} className="h-full w-full object-cover" /> */}
-              <span className="text-sm">Preview</span>
+            <img src={p.image} className="h-full w-full object-cover" /> 
+             
             </div>
             <div className="p-5">
               <h3 className="font-display font-semibold text-ink">{p.name}</h3>
