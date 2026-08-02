@@ -1,21 +1,22 @@
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 
 export const mailer = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
-})
+});
 
-export function isMailerConfigured() {
-  return Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS)
-}
-
-mailer.verify((error, success) => {
-  if (error) {
-    console.error("Mailer verification failed:", error);
+mailer.verify((err) => {
+  if (err) {
+    console.error("SMTP VERIFY ERROR");
+    console.error(err);
   } else {
-    console.log("Mailer is ready to send emails.");
+    console.log(" SMTP READY");
   }
 });
+
+export function isMailerConfigured() {
+  return Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+}
