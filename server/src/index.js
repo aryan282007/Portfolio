@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 5000
 // Allow the frontend to communicate with this backend using CORS.
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }))
 app.use(express.json())
+app.set("trust proxy", 1);
 
 // Protect the public contact endpoint from too many requests in a short period.
 const contactLimiter = rateLimit({
