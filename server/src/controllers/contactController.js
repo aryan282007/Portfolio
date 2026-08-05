@@ -14,9 +14,7 @@ export async function createContactMessage(req, res) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email)) {
-      return res
-        .status(400)
-        .json({ message: "Enter a valid email address." });
+      return res.status(400).json({ message: "Enter a valid email address." });
     }
 
     // Save message in MongoDB
@@ -27,43 +25,32 @@ export async function createContactMessage(req, res) {
       try {
         console.log("Sending email...");
 
-        const info = await mailer.sendMail({
-          // Always use the authenticated Gmail account
-          from: process.env.EMAIL_USER,
+    const info = await mailer.emails.send({
+  from: "Aryan Portfolio <onboarding@resend.dev>",
+  to: process.env.EMAIL_USER,
+  replyTo: email,
+  subject: `New Contact Message: ${subject}`,
+  html: `
+    <h2>New Contact Message</h2>
 
-          // Receive mail on your Gmail
-          to: process.env.EMAIL_USER,
+    <p><strong>Name:</strong> ${name}</p>
 
-          // When you click Reply, it replies to the visitor
-          replyTo: email,
+    <p><strong>Email:</strong> ${email}</p>
 
-          subject: `New Contact Message: ${subject}`,
+    <p><strong>Subject:</strong> ${subject}</p>
 
-          text: `
-Name: ${name}
-Email: ${email}
-Subject: ${subject}
-
-Message:
-${message}
-          `,
-        });
-
+    <p>${message}</p>
+  `,
+});
+      
         console.log(" Email sent successfully");
         console.log(info);
       } catch (emailError) {
-        console.error("========== MAIL ERROR ==========");
         console.error(emailError);
-        console.error("Code:", emailError.code);
-        console.error("Response Code:", emailError.responseCode);
-        console.error("Response:", emailError.response);
-        console.error("Command:", emailError.command);
-        console.error("Stack:", emailError.stack);
-        console.error("===============================");
       }
     } else {
       console.warn(
-        "Email notification skipped: EMAIL_USER or EMAIL_PASS is not configured."
+        "Email notification skipped: EMAIL_USER or EMAIL_PASS is not configured.",
       );
     }
 

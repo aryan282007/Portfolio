@@ -1,24 +1,15 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const hasMailerConfig = Boolean(process.env.EMAIL_USER && process.env.EMAIL_PASS);
+const hasMailerConfig = Boolean(process.env.RESEND_API_KEY);
 
-export const mailer = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+export const mailer = hasMailerConfig
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null;
 
 if (hasMailerConfig) {
-  mailer.verify((err) => {
-    if (err) {
-      console.error("SMTP VERIFY ERROR");
-      console.error(err);
-    } else {
-      console.log("SMTP READY");
-    }
-  });
+  console.log(" Resend configured");
+} else {
+  console.warn("RESEND_API_KEY is not configured");
 }
 
 export function isMailerConfigured() {
